@@ -5,7 +5,8 @@ import lombok.*;
 
 @Entity
 @Table(name = "roles")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -16,5 +17,5 @@ public class Role {
 
     @Enumerated(EnumType.STRING) // hibernate salva id 1, name ADMIN, id 2, name USER 
     @Column(name = "name", nullable = false, unique = true)
-    private String name;
+    private RoleType name;
 }

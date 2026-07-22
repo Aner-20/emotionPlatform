@@ -6,7 +6,8 @@ import java.util.*;
 
 @Entity
 @Table(name = "departments")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
