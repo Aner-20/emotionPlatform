@@ -6,7 +6,15 @@ import jakarta.validation.constraints.DecimalMin;
 import lombok.*;
 
 @Entity
-@Table(name = "note_emotions")
+@Table(
+    name = "note_emotions",
+    uniqueConstraints = {
+        @UniqueConstraint(
+            name = "uq_note_emotion",
+            columnNames = {"note_id", "emotion_id"}
+        )
+    }
+)
 @Getter
 @Setter
 @NoArgsConstructor

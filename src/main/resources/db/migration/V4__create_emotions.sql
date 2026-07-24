@@ -4,6 +4,6 @@ CREATE TABLE emotions (
 
     name VARCHAR(50) NOT NULL UNIQUE,
 
-    color VARCHAR(30)
+    color VARCHAR(30) NOT NULL
 
 );

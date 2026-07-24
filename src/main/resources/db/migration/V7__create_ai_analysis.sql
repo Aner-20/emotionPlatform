@@ -4,7 +4,7 @@ CREATE TABLE ai_analysis (
 
     note_id BIGINT NOT NULL UNIQUE,
 
-    mood_score INTEGER,
+    mood_score DOUBLE PRECISION,
 
     summary TEXT,
 
