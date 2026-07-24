@@ -1,5 +1,7 @@
 package com.example.emotionPlatform.entity;
 
+import java.util.List;
+
 import jakarta.persistence.*;
 
 import lombok.AllArgsConstructor;
@@ -26,4 +28,8 @@ public class Emotion {
 
     @Column(nullable = false)
     private String color;
+
+    @OneToMany(mappedBy = "emotion")
+    private List<NoteEmotion> noteEmotions;
+
 }

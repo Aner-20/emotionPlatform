@@ -16,5 +16,5 @@ CREATE TABLE ai_analysis (
     CONSTRAINT fk_ai_analysis_note
         FOREIGN KEY(note_id)
         REFERENCES notes(id)
-
+        ON DELETE CASCADE
 );
