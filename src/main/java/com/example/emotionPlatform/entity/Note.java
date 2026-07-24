@@ -38,4 +38,24 @@ public class Note {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+
+    // @JoinTable specifica la tabella di collegamento tra note e emotions
+    // @JoinColumns indica la colonna della tabella intermedia che punta alla tabella notes
+    // @InverseJoinColumns indica la colonna della tabella intermedia che punta ala tabella emotions
+    @ManyToMany
+    @JoinTable(
+            name = "note_emotions",
+            joinColumns = @JoinColumn(name = "note_id"),
+            inverseJoinColumns = @JoinColumn(name = "emotion_id")
+    )
+    private List<Emotion> emotions;
+
+    @OneToOne(
+            mappedBy = "note",
+            cascade = CascadeType.ALL
+    )
+    private AiAnalysis aiAnalysis;
+
+    
+
 }
