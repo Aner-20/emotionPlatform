@@ -1,6 +1,8 @@
 package com.example.emotionPlatform.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
 import lombok.*;
 
 @Entity
@@ -12,7 +14,7 @@ import lombok.*;
 @Builder
 
 public class NoteEmotion {
-     @Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -28,5 +30,7 @@ public class NoteEmotion {
 
 
     @Column(nullable = false)
+    @DecimalMin("0.0")
+    @DecimalMax("100.0")
     private Double score;
 }

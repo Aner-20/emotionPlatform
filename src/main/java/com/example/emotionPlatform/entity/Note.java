@@ -48,7 +48,7 @@ public class Note {
             joinColumns = @JoinColumn(name = "note_id"),
             inverseJoinColumns = @JoinColumn(name = "emotion_id")
     )
-    private List<Emotion> emotions;
+    private List<NoteEmotion> noteEmotions;
 
     @OneToOne(
             mappedBy = "note",
