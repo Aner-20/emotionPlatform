@@ -3,7 +3,6 @@ package com.example.emotionPlatform.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.example.emotionPlatform.entity.User;
-import java.util.List;
 import java.util.Optional;
 
 
