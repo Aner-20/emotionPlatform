@@ -29,7 +29,7 @@ public class Emotion {
     @Column(nullable = false)
     private String color;
 
-    @OneToMany(mappedBy = "emotion", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "emotion", orphanRemoval = true)
     private List<NoteEmotion> noteEmotions;
 
 }
