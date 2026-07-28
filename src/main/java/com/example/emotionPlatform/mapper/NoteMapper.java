@@ -11,7 +11,8 @@ import com.example.emotionPlatform.entity.Note;
 public interface NoteMapper {
     
     Note toEntity(NoteRequestDTO dto);
-    // Mapping: il campo emotions del DTO deve essere preso dal campo noteEmotions dell'entity
+    // @Mapping: il campo emotions del DTO deve essere preso dal campo noteEmotions dell'entity.
+    // Si usa quando i nomi non coincidono in Entity e in DTO
      @Mapping(
         source = "noteEmotions",
         target = "emotions"
