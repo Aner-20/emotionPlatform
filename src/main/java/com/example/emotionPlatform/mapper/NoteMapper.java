@@ -13,9 +13,10 @@ public interface NoteMapper {
     Note toEntity(NoteRequestDTO dto);
     // @Mapping: il campo emotions del DTO deve essere preso dal campo noteEmotions dell'entity.
     // Si usa quando i nomi non coincidono in Entity e in DTO
+    // Prende il valore di noteEmotions e lo mette in emotions nel DTO
      @Mapping(
-        source = "noteEmotions",
-        target = "emotions"
+        source = "noteEmotions", // lista in entity
+        target = "emotions" // lista nel DTO
     )
     NoteResponseDTO toResponse(Note note);
 }
