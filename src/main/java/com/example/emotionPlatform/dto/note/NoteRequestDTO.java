@@ -15,4 +15,5 @@ public class NoteRequestDTO {
     private String text;
 
     private Boolean isPrivate;
+
 }
