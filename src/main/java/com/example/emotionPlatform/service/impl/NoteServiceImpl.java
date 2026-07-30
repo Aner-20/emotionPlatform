@@ -13,7 +13,6 @@ import com.example.emotionPlatform.exception.NotFoundException;
 import com.example.emotionPlatform.exception.UnAuthorizedException;
 import com.example.emotionPlatform.mapper.NoteMapper;
 import com.example.emotionPlatform.repository.NoteRepository;
-import com.example.emotionPlatform.repository.UserRepository;
 import com.example.emotionPlatform.service.NoteService;
 import com.example.emotionPlatform.entity.RoleType;
 
