@@ -29,6 +29,6 @@ public class RoleMapperImpl implements RoleMapper {
 @Mapper(componentModel = "spring")
 public interface RoleMapper {
     // RoleResponseDTO oggetto che si manda al client
-    // toResponse ritorna un dto, e fa Entiy -> DTO di risposta
+    // toResponse ritorna un dto, e fa Entity -> DTO di risposta
     RoleResponseDTO toResponse(Role role);
 }
