@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.example.emotionPlatform.dto.role.RoleResponseDTO;
+
 import com.example.emotionPlatform.dto.user.UserRequestDTO;
 import com.example.emotionPlatform.dto.user.UserResponseDTO;
 import com.example.emotionPlatform.entity.Department;
