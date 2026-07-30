@@ -8,6 +8,6 @@ import com.example.emotionPlatform.entity.Department;
 
 @Mapper(componentModel = "spring")
 public interface DepartmentMapper {
-    DepartmentRequestDTO toEntity(DepartmentRequestDTO dto);
+    Department toEntity(DepartmentRequestDTO dto);
     DepartmentResponseDTO toResponse(Department department);
 }
