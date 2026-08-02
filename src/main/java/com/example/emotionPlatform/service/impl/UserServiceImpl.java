@@ -59,7 +59,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponseDTO updateUsers(Long id, UserRequestDTO request) {
+    public UserResponseDTO updateUser(Long id, UserRequestDTO request) {
         User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException("User not found"));
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
