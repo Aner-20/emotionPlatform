@@ -10,14 +10,15 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class UserRequestDTO {
-    @NotBlank
+    @NotBlank(message = "Mandatory first name")
     @Size(min = 3, max = 50)
     private String firstName;
 
-    @NotBlank
+    
     @Size(min = 3, max = 50)
     private String lastName;
 
+    @NotBlank // previene "", " ", null
     @Email
     private String email;
 
