@@ -47,6 +47,10 @@ public class NoteController {
 
     }
 
+    @GetMapping
+    public ResponseEntity<List<NoteResponseDTO>> getAllNotes(){
+        return ResponseEntity.ok(noteService.getAllNotes());
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<NoteResponseDTO> getNoteById(@PathVariable Long id, @RequestParam Long userId){
@@ -74,6 +78,8 @@ public class NoteController {
         return ResponseEntity.ok(noteService.updateNote(userId, request, user));
 
     }
+
+    // @RequestParam è temporaneo
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteNote(@PathVariable Long id, @RequestParam Long userId){
