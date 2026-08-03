@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.emotionPlatform.dto.note.NoteRequestDTO;
 import com.example.emotionPlatform.dto.note.NoteResponseDTO;
-import com.example.emotionPlatform.dto.user.UserResponseDTO;
 import com.example.emotionPlatform.entity.User;
 import com.example.emotionPlatform.exception.NotFoundException;
 import com.example.emotionPlatform.repository.UserRepository;
