@@ -11,9 +11,10 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class LoginRequestDTO {
-    @Email
+    @Email(message = "Email must be valid")
+    @NotBlank(message = "Email is required")
     private String email;
 
-    @NotBlank
+    @NotBlank(message = "Password is required")
     private String password;
 }

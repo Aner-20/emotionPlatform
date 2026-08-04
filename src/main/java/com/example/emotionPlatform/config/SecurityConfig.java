@@ -2,7 +2,9 @@ package com.example.emotionPlatform.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -19,6 +21,9 @@ public class SecurityConfig {
 
             // Disabilita CSRF per le API REST
             .csrf(csrf -> csrf.disable())
+
+            // Non si usano sessioni
+
 
             // Autorizzazioni
             .authorizeHttpRequests(auth -> auth
@@ -40,4 +45,7 @@ public class SecurityConfig {
 
         return http.build();
     }
+
+    
+
 }
