@@ -2,6 +2,7 @@ package com.example.emotionPlatform.service.impl;
 
 import java.util.List;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
@@ -27,7 +28,7 @@ public class UserServiceImpl implements UserService {
     private final RoleRepository roleRepository;
     private final DepartmentRepository departmentRepository;
     private final UserMapper userMapper;
-    
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public UserResponseDTO createUser(UserRequestDTO request) {
@@ -36,6 +37,8 @@ public class UserServiceImpl implements UserService {
        Department department = departmentRepository.findById(request.getDepartmentId()).orElseThrow(() -> new NotFoundException("Department not found"));
     
        User user = userMapper.toEntity(request);
+       // Criptazione password prima del salvataggio
+       user.setPassword(passwordEncoder.encode(request.getPassword()));
        user.setRole(role);
        user.setDepartment(department);
        User savedUser = userRepository.save(user);
@@ -64,7 +67,8 @@ public class UserServiceImpl implements UserService {
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
         user.setEmail(request.getEmail());
-        user.setPassword(request.getPassword());
+        // Nuova password criptata
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
 
         Role role = roleRepository.findById(request.getRoleId()).orElseThrow(() -> new NotFoundException("Role not found"));
 

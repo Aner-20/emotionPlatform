@@ -13,6 +13,15 @@ import io.jsonwebtoken.Jwts; // crea il token
 import io.jsonwebtoken.security.Keys; // lo firma con una chiave segreta
 
 // Crea i jwt(Json web token)
+// Il token jwt permette a un utente di dimostrare la propria identità nelle richieste successive al login senza dover reinserire email e password ogni volta
+// Il frontend salva il token in memoria o storage
+// Spring security con il token:ù
+// 1. prende il token
+// 2. verifica la firma
+// 3. controlla la scadenza
+// 4. legge chi è l'utente
+// Il jwt non contiene la password
+
 // Jwt hanno tre parti: HEADER.PAYLOAD.SIGNATURE
 // la firma viene creata usando PAYLOAD + SECRET_KEY
 // Serve perchè quando il client manda Authorization: Bearer eyJhbGc...
