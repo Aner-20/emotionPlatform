@@ -8,7 +8,7 @@ import javax.crypto.SecretKey;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts; // crea il token
 import io.jsonwebtoken.security.Keys; // lo firma con una chiave segreta
 
@@ -46,6 +46,38 @@ public class JwtService {
         return Keys.hmacShaKeyFor(
             SECRET_KEY.getBytes(StandardCharsets.UTF_8)
         );
+    }
+
+    // Estrae l'username(email) dal token in modo che si possa validare nelle richieste
+    public String extractUsername(String token){
+        return extractAllClaims(token).getSubject();
+    }
+
+    // Estrae tutti i dati presenti nel payload del JWT
+    private Claims extractAllClaims(String token){
+        return Jwts.parser()
+                   .verifyWith(getKey())
+                   .build()
+                   .parseSignedClaims(token)
+                   .getPayload();
+    }
+
+    // Recupera la data di scadenza del token
+    private Date extractExpiration(String token){
+        return extractAllClaims(token).getExpiration();
+    }
+
+    // Controlla se il token è scaduto
+
+    private boolean isTokenExpired(String token){
+        return extractExpiration(token).before(new Date());
+    }
+
+    // Verifica che il tokene appartenga all'utente corretto
+    // e che non sia scaduto
+    public boolean isTokenValid(String token, UserDetails userDetails){
+        String userName = extractUsername(token);
+        return userName.equals(userDetails.getUsername()) && !isTokenExpired(token);
     }
 
 }
