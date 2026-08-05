@@ -33,10 +33,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         // In authenticationManager:
         // spring recupera gli userDetails e poi confronta la password ricevuta con quella nel db
-        // se la password è corretta: l'autenticazione avviene con successo
+        // se la password è corretta (lo si verifica tramite passwordEncoder): l'autenticazione avviene con successo
 
         // si prende l'utente che ha appena autenticato
         // getPrincipal() contiene gli UserDetails
+        // Senza casting (user) non si potrebbe fare ad esempio user.getEmail(), in quanto Object non contiene il metodo getEmail()
         User user = (User) authentication.getPrincipal();
 
         String token = jwtService.generateToken(user);
