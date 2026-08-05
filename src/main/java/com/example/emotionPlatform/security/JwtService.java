@@ -53,13 +53,14 @@ public class JwtService {
         return extractAllClaims(token).getSubject();
     }
 
+    // Claims sono tutte le informazioni contenute nel payload del JWT
     // Estrae tutti i dati presenti nel payload del JWT
     private Claims extractAllClaims(String token){
         return Jwts.parser()
                    .verifyWith(getKey())
                    .build()
-                   .parseSignedClaims(token)
-                   .getPayload();
+                   .parseSignedClaims(token) // analisi della firma prende: HEADER.PAYLOAD.SIGNATURE e verifica la firma
+                   .getPayload(); // restituisce solo il payload
     }
 
     // Recupera la data di scadenza del token
