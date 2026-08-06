@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,7 +25,9 @@ public class NoteEmotionController {
     
     private final NoteEmotionService noteEmotionService;
     
+    
     @PostMapping
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<NoteEmotionResponseDTO> saveNoteEmotion(@RequestParam Long noteId, @RequestParam Long emotionId, @RequestParam Double score){
 
         NoteEmotionResponseDTO response = noteEmotionService.saveNoteEmotion(noteId, emotionId, score);
@@ -36,12 +39,16 @@ public class NoteEmotionController {
 
     }
 
+   
     @GetMapping("/note/{noteId}")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<List<NoteEmotionResponseDTO>> getEmotionsByNote(@PathVariable Long noteId){
         return ResponseEntity.ok(noteEmotionService.getEmotionsByNote(noteId));
     }
 
+  
     @DeleteMapping("/note/{noteId}")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<Void> deleteByNote(@PathVariable Long noteId){
         noteEmotionService.deleteByNote(noteId);
 

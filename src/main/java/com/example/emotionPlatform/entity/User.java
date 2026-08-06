@@ -40,7 +40,8 @@ public class User implements UserDetails {
     private String password;
 
     // fetch = FetchType.LAZY indica quando caricare il Role dal database, ovvero solo quando quando serve
-    @ManyToOne(fetch = FetchType.LAZY)
+    // EAGER per JWT
+    @ManyToOne(fetch = FetchType.EAGER)
     // @JoinColumn si chiede quale colonna ha la foreign key, in questo caso role_id
     // nullable = false: ogni User deve avere un Role obbligatoriamente
     @JoinColumn(name = "role_id", nullable = false)

@@ -23,14 +23,15 @@ public class OpenApiConfig {
                     
                     )
 
+                    // Componenti: sezione di OpenApi dove si mettono elemnenti riutilizzabili
                     // Configurazione JWT per Swagger
                     .components(
                         new Components()
                             .addSecuritySchemes(
-                                "bearerAuth",
+                                "bearerAuth", // nome dello schema
                                 new SecurityScheme()
-                                        .type(SecurityScheme.Type.HTTP)
-                                        .scheme("bearer")
+                                        .type(SecurityScheme.Type.HTTP) // tipo di autenticazione
+                                        .scheme("bearer") // formato standard JWT 
                                         .bearerFormat("JWT")
                             )
                     )  
@@ -38,7 +39,7 @@ public class OpenApiConfig {
                     // Applica il token alle richieste
                     .addSecurityItem(
                         new SecurityRequirement()
-                            .addList("bearerAuth")
+                            .addList("bearerAuth") // usa questo schema di sicureza per le chiamate Swagger
                     );
 
                 }

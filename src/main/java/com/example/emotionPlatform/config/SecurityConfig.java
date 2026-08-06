@@ -14,7 +14,7 @@ import com.example.emotionPlatform.security.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 
 @Configuration // dice a spring che questa classe contiene configurazioni da caricare all'avvio dell'applicazione
-@EnableMethodSecurity
+@EnableMethodSecurity // fondamentale altrimenti preAuthorize nei controller non funziona
 @RequiredArgsConstructor
 public class SecurityConfig {
 
@@ -66,11 +66,12 @@ public class SecurityConfig {
                 //.anyRequest().permitAll()
             )
                 // Filtro JWT prima del filtro standard
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
             // Login HTTP Basic (non verrà usato perché tutto è permitAll)
             // Il browser mostra una finestra con Username: e password: 
-            .httpBasic(Customizer.withDefaults());
+            // httpBasic non serve più. Se usato adesso(06/08/2026, 18:11) genera errore 
+            //.httpBasic(Customizer.withDefaults());
 
         return http.build();
     }
