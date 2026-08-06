@@ -16,8 +16,6 @@ import java.io.IOException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -30,17 +28,22 @@ import lombok.RequiredArgsConstructor;
 
 @Component // crea in automatico JwtAuthenticationFilters
 @RequiredArgsConstructor
+// OncePerRequestFilter esegue il filtro una sola volta per ogni richiesta HTTP
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     
     private final JwtService jwtService;
     private final CustomUserDetailsService userDetailsService;
     
+    // Questo metodo viene chiamato automaticamente per ogni richiesta
+    // Si usa Servlet perchè Spring Boot Web gira su di esso
+    // Servlet riceve richieste HTTP e produce risposte HTTP
+    // FilterChain è la catena di filtri che una richiesta HTTP deve attraversare prima di arrivare al controller
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
                 
             // Recupera header Authorization
-            final String authHeader = request.getHeader("Authorization");
+            final String authHeader = request.getHeader("Authorization"); // che restituisce ad esempio: Bearer eyJhbGciOiJIUzI1NiJ9.abc123.xyz(token) 
             
             // Se manca il token continua normalmente
             if (authHeader == null || !authHeader.startsWith("Bearer ")){
@@ -49,7 +52,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
 
             // Rimuove "Bearer "
-             String jwt = authHeader.substring(7);
+            String jwt = authHeader.substring(7);
 
 
             // Estrae email dal token
@@ -70,17 +73,19 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                             userDetails.getAuthorities()
                         );
                     
+                    // aggiunge dettagli come ip, sessione, dettagli http, non fondamentale per JWT, ma è uno standard
                     authToken.setDetails(
                         new WebAuthenticationDetailsSource().buildDetails(request)
                     );
 
                     // Salva utente autenticato nel contesto Security
+                    // considera l'utente da questo momento autenticato
                     SecurityContextHolder.getContext().setAuthentication(authToken);
 
                 }
             }
 
-            // Passa alla catena successiva
+            // Passa alla catena successiva e la richiesta va avanti
             filterChain.doFilter(request, response);
 
     }
