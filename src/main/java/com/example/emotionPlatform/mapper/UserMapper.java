@@ -3,6 +3,7 @@ package com.example.emotionPlatform.mapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import com.example.emotionPlatform.dto.auth.RegisterRequestDTO;
 import com.example.emotionPlatform.dto.user.UserRequestDTO;
 import com.example.emotionPlatform.dto.user.UserResponseDTO;
 import com.example.emotionPlatform.entity.User;
@@ -27,5 +28,17 @@ public interface UserMapper {
     
     User toEntity(UserRequestDTO dto);
     
+     @Mapping(
+        target = "firstName",
+        expression = "java(StringUtilsCustom.capitalizeWords(dto.getFirstName()))"
+    )
+    @Mapping(
+        target = "lastName",
+        expression = "java(StringUtilsCustom.capitalizeWords(dto.getLastName()))"
+    )
+    User toEntity(RegisterRequestDTO dto);
+
+
+
     UserResponseDTO toResponse(User user);
 }
