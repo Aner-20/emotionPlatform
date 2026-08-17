@@ -12,17 +12,19 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class RegisterRequestDTO {
-    @NotBlank
+    @NotBlank(message = "First name is required")
     @Size(min = 3, max = 50)
     private String firstName;
 
-    @NotBlank
+    @NotBlank(message = "Last name is required")
     @Size(min = 3, max = 50)
     private String lastName;
 
-    @Email
+    @Email(message = "Email must be valid")
+    @NotBlank(message = "Email is required")
     private String email;
 
+    @NotBlank(message = "Password is required")
     @Size(min = 8)
     private String password;
 

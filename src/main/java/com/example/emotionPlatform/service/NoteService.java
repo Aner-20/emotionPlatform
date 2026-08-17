@@ -7,7 +7,8 @@ import com.example.emotionPlatform.dto.note.NoteResponseDTO;
 import com.example.emotionPlatform.entity.User;
 
 
-// l'utente è già autenticato
+// l'utente è già autenticato tramite JWT.
+// l' userId viene recuperato dal JWT e passato come User
 public interface NoteService {
     
     NoteResponseDTO createNote(NoteRequestDTO request, User user);
