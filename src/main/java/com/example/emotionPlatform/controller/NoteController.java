@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,16 +32,14 @@ public class NoteController {
     
     private final NoteService noteService;
     
-    //private final UserRepository userRepository;
+    private final UserRepository userRepository;
 
     
     @PostMapping
-    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-    public ResponseEntity<NoteResponseDTO> createNote(@Valid @RequestBody NoteRequestDTO request, Authentication authentication){
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<NoteResponseDTO> createNote(@Valid @RequestBody NoteRequestDTO request, @RequestParam Long userId){
         
-        //User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("User not found"));
-
-        User user = (User) authentication.getPrincipal();
+        User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("User not found"));
 
         NoteResponseDTO response = noteService.createNote(request, user);
 
@@ -54,7 +51,7 @@ public class NoteController {
     
    
     @GetMapping
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<List<NoteResponseDTO>> getAllNotes(){
         return ResponseEntity.ok(noteService.getAllNotes());
     }
@@ -62,40 +59,33 @@ public class NoteController {
    
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
-    public ResponseEntity<NoteResponseDTO> getNoteById(@PathVariable Long id, Authentication authentication){
+    public ResponseEntity<NoteResponseDTO> getNoteById(@PathVariable Long id, @RequestParam Long userId){
 
-        //User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("User not found"));
+        User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("User not found"));
 
-        User user = (User) authentication.getPrincipal();
-
-        return ResponseEntity.ok(noteService.getNoteById(id, user));
+        return ResponseEntity.ok(noteService.getNoteById(userId, user));
         
     }
 
    
     @GetMapping("/my")
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
-    public ResponseEntity<List<NoteResponseDTO>> getMyNotes(Authentication authentication) {
+    public ResponseEntity<List<NoteResponseDTO>> getMyNotes(@RequestParam Long userId) {
         
-         //User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("User not found"));
+        User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("User not found"));
         
-        User user = (User) authentication.getPrincipal();
-
-        return ResponseEntity.ok(noteService.getMyNotes(user));
+         return ResponseEntity.ok(noteService.getMyNotes(user));
 
     }
     
     
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
-    public ResponseEntity<NoteResponseDTO> updateNote(@PathVariable Long id, @Valid @RequestBody NoteRequestDTO request, Authentication authentication){
+    public ResponseEntity<NoteResponseDTO> updateNote(@PathVariable Long id, @Valid @RequestBody NoteRequestDTO request, @RequestParam Long userId){
         
-        //User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("User not found"));
+        User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("User not found"));
 
-        User user = (User) authentication.getPrincipal();
-
-
-        return ResponseEntity.ok(noteService.updateNote(id, request, user));
+        return ResponseEntity.ok(noteService.updateNote(userId, request, user));
 
     }
 
@@ -103,13 +93,11 @@ public class NoteController {
    
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
-    public ResponseEntity<Void> deleteNote(@PathVariable Long id, Authentication authentication){
+    public ResponseEntity<Void> deleteNote(@PathVariable Long id, @RequestParam Long userId){
         
-        //User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("User not found"));
+        User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("User not found"));
 
-        User user = (User) authentication.getPrincipal();
-
-        noteService.deleteNote(id, user);
+        noteService.deleteNote(userId, user);
 
         return ResponseEntity
                 .noContent()

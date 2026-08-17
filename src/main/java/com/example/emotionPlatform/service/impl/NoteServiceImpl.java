@@ -31,8 +31,6 @@ public class NoteServiceImpl implements NoteService {
     @Override
     public NoteResponseDTO createNote(NoteRequestDTO request, User user) {
         Note note = noteMapper.toEntity(request);
-
-        // note.setUser: la nota viene in associata all'utente. Non serve più userId
         note.setUser(user);
         note.setCreatedAt(LocalDateTime.now());
         note.setUpdatedAt(LocalDateTime.now());
@@ -101,9 +99,7 @@ public class NoteServiceImpl implements NoteService {
                               .getId()
                               .equals(user.getId());
 
-        //boolean isAdmin = user.getRole().getName().equals(RoleType.ADMIN.name());
-        
-        boolean isAdmin = user.getAuthorities().stream().anyMatch(authority -> authority.getAuthority().equals("ROLE_ADMIN"));
+        boolean isAdmin = user.getRole().getName().equals(RoleType.ADMIN.name());
 
         if (!isOwner && !isAdmin){
             throw new UnAuthorizedException("You cannot access this note");
