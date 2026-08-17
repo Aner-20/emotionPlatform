@@ -22,6 +22,7 @@ import com.example.emotionPlatform.repository.UserRepository;
 import com.example.emotionPlatform.security.JwtService;
 import com.example.emotionPlatform.service.AuthenticationService;
 
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -36,7 +37,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final JwtService jwtService;
     private final UserMapper userMapper;
     
-    
+    @PostConstruct
+    public void generateAdminPassword(){
+        System.out.println("Admin123");
+    }
+
     @Override
     public LoginResponseDTO login(LoginRequestDTO request) {
         // dice a spring security di verificare se l'email e la password sono corrette
