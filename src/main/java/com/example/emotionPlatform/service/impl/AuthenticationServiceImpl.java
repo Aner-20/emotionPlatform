@@ -70,7 +70,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public UserResponseDTO register(RegisterRequestDTO request) {
         User user = userMapper.toEntity(request);
 
-        Role role = roleRepository.findByName(RoleType.ADMIN).orElseThrow(() -> new NotFoundException("USER role not found"));
+        Role role = roleRepository.findByName(RoleType.USER).orElseThrow(() -> new NotFoundException("USER role not found"));
 
         user.setRole(role);
 

@@ -99,7 +99,9 @@ public class NoteServiceImpl implements NoteService {
                               .getId()
                               .equals(user.getId());
 
-        boolean isAdmin = user.getRole().getName().equals(RoleType.ADMIN.name());
+        //boolean isAdmin = user.getRole().getName().equals(RoleType.ADMIN.name());
+
+        boolean isAdmin = user.getRole().getName() == RoleType.ADMIN;
 
         if (!isOwner && !isAdmin){
             throw new UnAuthorizedException("You cannot access this note");
