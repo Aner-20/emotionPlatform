@@ -10,7 +10,6 @@ import com.example.emotionPlatform.entity.Note;
 import com.example.emotionPlatform.exception.NotFoundException;
 import com.example.emotionPlatform.mapper.AiAnalysisMapper;
 import com.example.emotionPlatform.repository.AiAnalysisRepository;
-import com.example.emotionPlatform.repository.NoteRepository;
 import com.example.emotionPlatform.service.AiAnalysisService;
 
 import lombok.RequiredArgsConstructor;
@@ -20,13 +19,26 @@ import lombok.RequiredArgsConstructor;
 public class AiAnalysisServiceImpl implements AiAnalysisService {
     
     private final AiAnalysisRepository aiAnalysisRepository;
-
-    private final NoteRepository noteRepository;
-
     private final AiAnalysisMapper aiAnalysisMapper;
 
     @Override
-    public AiAnalysisResponseDTO createAnalysis(Note note, Double moodScore, String summary, String jsonResult) {
+    public AiAnalysisResponseDTO createAnalysis(Note note) {
+        
+         /*
+         * Qui in futuro Java chiamerà Python.
+         *
+         * Python riceverà il testo della note e restituirà:
+         * - moodScore
+         * - summary
+         * - jsonResult
+         *
+         * Per ora lasciamo dei valori temporanei.
+         */
+
+        Double moodScore = null;
+        String summary = null;
+        String jsonResult = null;
+        
         AiAnalysis analysis = AiAnalysis.builder()
                 .note(note)
                 .moodScore(moodScore)

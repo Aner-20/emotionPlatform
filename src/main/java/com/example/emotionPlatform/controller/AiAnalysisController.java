@@ -2,6 +2,7 @@ package com.example.emotionPlatform.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,16 +25,16 @@ import lombok.RequiredArgsConstructor;
 public class AiAnalysisController {
     
     private final AiAnalysisService aiAnalysisService;
-    
     private final NoteRepository noteRepository;
 
 
     @PostMapping
-    public ResponseEntity<AiAnalysisResponseDTO> createAnalysis(@RequestParam Long noteId, @RequestParam Double moodScore, @RequestParam String summary, @RequestParam String jsonResult){
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+    public ResponseEntity<AiAnalysisResponseDTO> createAnalysis(@PathVariable Long noteId){
 
         Note note = noteRepository.findById(noteId).orElseThrow(() -> new NotFoundException("Note not found"));
 
-        AiAnalysisResponseDTO response = aiAnalysisService.createAnalysis(note, moodScore, summary, jsonResult);
+        AiAnalysisResponseDTO response = aiAnalysisService.createAnalysis(note);
 
         return ResponseEntity 
                  .status(HttpStatus.CREATED)
@@ -42,12 +43,14 @@ public class AiAnalysisController {
     }
 
     @GetMapping("/note/{noteId}")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<AiAnalysisResponseDTO> getAnalysisByNote(@PathVariable Long noteId){
         return ResponseEntity.ok(aiAnalysisService.getAnalysisByNote(noteId));
 
     }
 
     @DeleteMapping("/note/{noteId}")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<Void> deleteAnalysis(@PathVariable Long noteId){
         aiAnalysisService.deleteAnalysis(noteId);
 

@@ -5,7 +5,9 @@ import com.example.emotionPlatform.entity.Note;
 
 public interface AiAnalysisService {
     
-    AiAnalysisResponseDTO createAnalysis(Note note, Double moodScore, String summary, String jsonResult);
+    //AiAnalysisResponseDTO analyzeNote(Long noteId);
+
+    AiAnalysisResponseDTO createAnalysis(Note note);
 
     AiAnalysisResponseDTO getAnalysisByNote(Long noteId);
 
