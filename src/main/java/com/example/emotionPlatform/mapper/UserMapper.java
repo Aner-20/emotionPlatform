@@ -38,7 +38,5 @@ public interface UserMapper {
     )
     User toEntity(RegisterRequestDTO dto);
 
-
-
     UserResponseDTO toResponse(User user);
 }
