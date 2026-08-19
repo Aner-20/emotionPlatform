@@ -6,6 +6,6 @@ class EmotionRequest(BaseModel):
     text: str
     
 class EmotionResponse(BaseModel):
-    moodScore: str
+    moodScore: float
     summary: str
     jsonResult: dict

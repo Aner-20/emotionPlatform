@@ -7,6 +7,8 @@ texts = [
     "Sono arrabbiato, questa situazione mi fa impazzire.",
     "Ho molta paura di quello che potrebbe succedere.",
     "Oggi è stata una giornata normale.",
+    "Today, i'm really mad.",
+    "I'm happy."
 ]
 
 
