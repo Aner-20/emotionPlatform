@@ -62,8 +62,8 @@ public class NoteServiceImpl implements NoteService {
             
             System.out.println("EMOTION NAME: " + emotionName);
 
-            Double score = ((Number) entry.getValue()).doubleValue();
-            Emotion emotion = emotionRepository.findByName(emotionName).orElseThrow();
+            Double score = Math.round(((Number) entry.getValue()).doubleValue() * 10000.0) / 100.0;
+            Emotion emotion = emotionRepository.findByName(emotionName).orElseThrow(() -> new RuntimeException("Emotion not found in database: " + emotionName));
             
             NoteEmotion noteEmotion = NoteEmotion.builder()
                 .note(savedNote)

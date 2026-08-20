@@ -25,7 +25,7 @@ public class NoteEmotionController {
     
     private final NoteEmotionService noteEmotionService;
     
-    
+    /* 
     @PostMapping
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<NoteEmotionResponseDTO> saveNoteEmotion(@RequestParam Long noteId, @RequestParam Long emotionId, @RequestParam Double score){
@@ -38,7 +38,7 @@ public class NoteEmotionController {
 
 
     }
-
+    */
    
     @GetMapping("/note/{noteId}")
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
