@@ -38,7 +38,9 @@ public class NoteServiceImpl implements NoteService {
         Note savedNote = noteRepository.save(note);
 
         AiPythonResponse aiResponse = aiClientService.analyze(note.getText());
-        System.out.println(aiResponse);
+        System.out.println("MOOD SCORE: " + aiResponse.getMoodScore());
+        System.out.println("SUMMARY: " + aiResponse.getSummary());
+        System.out.println("JSON RESULT: " + aiResponse.getJsonResult());
 
         return noteMapper.toResponse(savedNote);
 

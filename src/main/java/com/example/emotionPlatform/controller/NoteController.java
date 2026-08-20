@@ -54,7 +54,7 @@ public class NoteController {
     
    
     @GetMapping
-    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<NoteResponseDTO>> getAllNotes(){
         return ResponseEntity.ok(noteService.getAllNotes());
     }
