@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -42,13 +43,15 @@ public class Note {
     // @JoinTable specifica la tabella di collegamento tra note e emotions
     // @JoinColumns indica la colonna della tabella intermedia che punta alla tabella notes
     // @InverseJoinColumns indica la colonna della tabella intermedia che punta ala tabella emotions
+    // @Builder.Default assegna valori di default ai campi
+    @Builder.Default 
     @OneToMany(
         mappedBy = "note",
         cascade = CascadeType.ALL,
         orphanRemoval = true
     )
     
-    private List<NoteEmotion> noteEmotions;
+    private List<NoteEmotion> noteEmotions = new ArrayList<>();
 
     @OneToOne(
             mappedBy = "note",

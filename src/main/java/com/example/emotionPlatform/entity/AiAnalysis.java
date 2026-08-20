@@ -1,9 +1,10 @@
 package com.example.emotionPlatform.entity;
 
 import java.time.LocalDateTime;
-
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 @Entity
 @Table(name = "ai_analysis")
@@ -31,7 +32,9 @@ public class AiAnalysis {
     private String summary;
 
     // columnDefinition Si dice a Hibernate che questa colonna dev'essere di tipo jsonb
-    @Column(columnDefinition = "jsonb")
+    // @JdbcTypeCode dice a Hibernate di leggere e trattare l'attributo come un valore JSON
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(name = "json_result", columnDefinition = "jsonb")
     private String jsonResult;
 
 

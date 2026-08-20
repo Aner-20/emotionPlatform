@@ -1,5 +1,6 @@
 package com.example.emotionPlatform.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.*;
@@ -29,7 +30,9 @@ public class Emotion {
     @Column(nullable = false)
     private String color;
 
+    // In modo che noteEmotions non sia null e che possa generare NullPointerException
+    @Builder.Default
     @OneToMany(mappedBy = "emotion", orphanRemoval = true)
-    private List<NoteEmotion> noteEmotions;
+    private List<NoteEmotion> noteEmotions = new ArrayList<>();
 
 }

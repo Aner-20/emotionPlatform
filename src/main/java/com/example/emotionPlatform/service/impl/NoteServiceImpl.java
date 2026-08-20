@@ -2,30 +2,44 @@ package com.example.emotionPlatform.service.impl;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
+import java.util.Locale; // utile per conversioni di testo indipendenti dalla lingua locale della macchina
 
 import org.springframework.stereotype.Service;
 
 import com.example.emotionPlatform.dto.ai.AiPythonResponse;
 import com.example.emotionPlatform.dto.note.NoteRequestDTO;
 import com.example.emotionPlatform.dto.note.NoteResponseDTO;
+import com.example.emotionPlatform.entity.AiAnalysis;
 import com.example.emotionPlatform.entity.Note;
 import com.example.emotionPlatform.entity.User;
 import com.example.emotionPlatform.exception.NotFoundException;
 import com.example.emotionPlatform.exception.UnAuthorizedException;
 import com.example.emotionPlatform.mapper.NoteMapper;
+import com.example.emotionPlatform.repository.AiAnalysisRepository;
+import com.example.emotionPlatform.repository.EmotionRepository;
 import com.example.emotionPlatform.repository.NoteRepository;
 import com.example.emotionPlatform.service.AiClientService;
 import com.example.emotionPlatform.service.NoteService;
 import com.example.emotionPlatform.entity.RoleType;
-
 import lombok.RequiredArgsConstructor;
+import tools.jackson.databind.ObjectMapper;
+
+
+import com.example.emotionPlatform.entity.Emotion;
+import com.example.emotionPlatform.entity.NoteEmotion;
+
+// ObjectMapper converte Map in una vera stringa JSON
 
 @Service
 @RequiredArgsConstructor
 public class NoteServiceImpl implements NoteService {
     
     private final NoteRepository noteRepository;
+    private final AiAnalysisRepository aiAnalysisRepository;
+    private final EmotionRepository emotionRepository;
     private final NoteMapper noteMapper;
+    private final ObjectMapper objectMapper;
     private final AiClientService aiClientService;
 
     @Override
@@ -38,11 +52,45 @@ public class NoteServiceImpl implements NoteService {
         Note savedNote = noteRepository.save(note);
 
         AiPythonResponse aiResponse = aiClientService.analyze(note.getText());
-        System.out.println("MOOD SCORE: " + aiResponse.getMoodScore());
-        System.out.println("SUMMARY: " + aiResponse.getSummary());
-        System.out.println("JSON RESULT: " + aiResponse.getJsonResult());
+        Map<String, Object> emotions = (Map<String, Object>) aiResponse.getJsonResult().get("emotions");
+        
+        
+        for (Map.Entry<String, Object> entry : emotions.entrySet()){
+            
+            // Locale.ROOT converte il testo senza basarsi sulla lignua locale del computer
+            String emotionName = entry.getKey().toUpperCase(Locale.ROOT); // le emozioni nel db sono in stampatello maiuscolo
+            
+            System.out.println("EMOTION NAME: " + emotionName);
 
-        return noteMapper.toResponse(savedNote);
+            Double score = ((Number) entry.getValue()).doubleValue();
+            Emotion emotion = emotionRepository.findByName(emotionName).orElseThrow();
+            
+            NoteEmotion noteEmotion = NoteEmotion.builder()
+                .note(savedNote)
+                .emotion(emotion)
+                .score(score * 100)
+                .build();
+
+            savedNote.getNoteEmotions().add(noteEmotion);
+
+        }
+        
+        AiAnalysis aiAnalysis = AiAnalysis.builder()
+                     .note(savedNote)
+                     .moodScore(aiResponse.getMoodScore())
+                     .summary(aiResponse.getSummary())
+                     .jsonResult(objectMapper.writeValueAsString(aiResponse.getJsonResult()))
+                     .createdAt(LocalDateTime.now())
+                     .build();
+        
+        aiAnalysisRepository.save(aiAnalysis);
+        
+        savedNote.setAiAnalysis(aiAnalysis);
+        //System.out.println("MOOD SCORE: " + aiAnalysis.getMoodScore());
+        //System.out.println("SUMMARY: " + aiAnalysis.getSummary());
+        //System.out.println("JSON RESULT: " + aiAnalysis.getJsonResult());
+
+        return noteMapper.toResponse(savedNote); 
 
     }
 
