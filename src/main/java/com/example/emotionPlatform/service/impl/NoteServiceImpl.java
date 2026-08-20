@@ -1,5 +1,6 @@
 package com.example.emotionPlatform.service.impl;
 
+import org.springframework.security.access.AccessDeniedException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -61,14 +62,17 @@ public class NoteServiceImpl implements NoteService {
             String emotionName = entry.getKey().toUpperCase(Locale.ROOT); // le emozioni nel db sono in stampatello maiuscolo
             
             System.out.println("EMOTION NAME: " + emotionName);
-
-            Double score = Math.round(((Number) entry.getValue()).doubleValue() * 10000.0) / 100.0;
+            double rawScore = ((Number) entry.getValue()).doubleValue();
+            Double score = Math.round(rawScore * 10000.0) / 100.0;
+            score = Math.max(0.0, Math.min(score, 100.0));
+            System.out.println("Raw score: " + rawScore);
+            System.out.println("Score: " + score);
             Emotion emotion = emotionRepository.findByName(emotionName).orElseThrow(() -> new RuntimeException("Emotion not found in database: " + emotionName));
             
             NoteEmotion noteEmotion = NoteEmotion.builder()
                 .note(savedNote)
                 .emotion(emotion)
-                .score(score * 100)
+                .score(score)
                 .build();
 
             savedNote.getNoteEmotions().add(noteEmotion);
@@ -103,13 +107,7 @@ public class NoteServiceImpl implements NoteService {
         return noteMapper.toResponse(note);
     }
 
-    @Override
-    public List<NoteResponseDTO> getMyNotes(User user) {
-         return noteRepository.findByUser(user)
-                .stream()
-                .map(noteMapper::toResponse)
-                .toList();
-    }
+   
 
     @Override
     public List<NoteResponseDTO> getAllNotes() {
@@ -143,10 +141,51 @@ public class NoteServiceImpl implements NoteService {
         noteRepository.delete(note);
     }
 
+
+
+    @Override
+    public NoteResponseDTO getMyNote(Long noteId, User user){
+        Note note = noteRepository.findByIdAndUserId(noteId, user.getId()).orElseThrow(() -> new NotFoundException("Note not found"));
+        return noteMapper.toResponse(note);
+    }
+
+    @Override
+    public NoteResponseDTO updateMyNote(Long noteId, NoteRequestDTO request, User user){
+        Note note = noteRepository.findByIdAndUserId(noteId, user.getId()).orElseThrow(() -> new NotFoundException("Note not found"));
+        
+        note.setText(request.getText());
+        note.setIsPrivate(request.getIsPrivate());
+        note.setUpdatedAt(LocalDateTime.now());
+
+        Note updatedNote = noteRepository.save(note);
+
+        return noteMapper.toResponse(updatedNote);
+    }
+    
+
+    @Override
+    public List<NoteResponseDTO> getMyNotes(User user) {
+         return noteRepository.findByUser(user)
+                .stream()
+                .map(noteMapper::toResponse)
+                .toList();
+    }
+
+    public void deleteMyNote(Long id, User user){
+        Note note = getNoteOrThrow(id);
+
+        if (!note.getUser().getId().equals(user.getId())){
+            throw new AccessDeniedException("You cannot delete this note");
+        }
+
+        noteRepository.delete(note);
+    }
+
+
     private Note getNoteOrThrow(Long id){
         return noteRepository.findById(id).orElseThrow(() -> new NotFoundException("Note not found"));
     }
-    
+
     private void checkAccess(Note note, User user){
         boolean isOwner = note.getUser()
                               .getId()

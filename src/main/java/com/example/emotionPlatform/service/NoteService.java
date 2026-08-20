@@ -14,12 +14,18 @@ public interface NoteService {
 
     NoteResponseDTO getNoteById(Long id, User user);
 
-    List<NoteResponseDTO> getMyNotes(User user);
-
     List<NoteResponseDTO> getAllNotes();
 
     NoteResponseDTO updateNote(Long id, NoteRequestDTO request, User user);
 
     void deleteNote(Long id, User user);
+
+    List<NoteResponseDTO> getMyNotes(User user);
+
+    void deleteMyNote(Long id, User user);
+
+    NoteResponseDTO getMyNote(Long noteId, User user);
+
+    NoteResponseDTO updateMyNote(Long noteId, NoteRequestDTO request, User user);
 
 }
