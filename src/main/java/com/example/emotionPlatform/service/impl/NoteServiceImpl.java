@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.example.emotionPlatform.dto.ai.AiPythonResponse;
 import com.example.emotionPlatform.dto.note.NoteRequestDTO;
 import com.example.emotionPlatform.dto.note.NoteResponseDTO;
 import com.example.emotionPlatform.entity.Note;
@@ -13,6 +14,7 @@ import com.example.emotionPlatform.exception.NotFoundException;
 import com.example.emotionPlatform.exception.UnAuthorizedException;
 import com.example.emotionPlatform.mapper.NoteMapper;
 import com.example.emotionPlatform.repository.NoteRepository;
+import com.example.emotionPlatform.service.AiClientService;
 import com.example.emotionPlatform.service.NoteService;
 import com.example.emotionPlatform.entity.RoleType;
 
@@ -20,13 +22,11 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-
-// Senza servizio AI
 public class NoteServiceImpl implements NoteService {
     
     private final NoteRepository noteRepository;
-    
     private final NoteMapper noteMapper;
+    private final AiClientService aiClientService;
 
     @Override
     public NoteResponseDTO createNote(NoteRequestDTO request, User user) {
@@ -36,6 +36,9 @@ public class NoteServiceImpl implements NoteService {
         note.setUpdatedAt(LocalDateTime.now());
 
         Note savedNote = noteRepository.save(note);
+
+        AiPythonResponse aiResponse = aiClientService.analyze(note.getText());
+        System.out.println(aiResponse);
 
         return noteMapper.toResponse(savedNote);
 
