@@ -2,9 +2,11 @@ package com.example.emotionPlatform.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 
 import com.example.emotionPlatform.dto.department.DepartmentRequestDTO;
 import com.example.emotionPlatform.dto.department.DepartmentResponseDTO;
+import com.example.emotionPlatform.entity.User;
 import com.example.emotionPlatform.service.DepartmentService;
 
 import jakarta.validation.Valid;
@@ -71,6 +73,15 @@ public class DepartmentController {
         return ResponseEntity
                 .noContent() // crea risposta con status 204 NO CONTENT
                 .build(); // costruisce l'oggetto in modo definitivo
+    }
+
+
+    @GetMapping("/my")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    public ResponseEntity<DepartmentResponseDTO> getMyDepartment(Authentication authentication){
+        User user = (User) authentication.getPrincipal();
+        
+        return ResponseEntity.ok(departmentService.getMyDepartment(user));
     }
 
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.example.emotionPlatform.dto.department.DepartmentRequestDTO;
 import com.example.emotionPlatform.dto.department.DepartmentResponseDTO;
+import com.example.emotionPlatform.entity.User;
 
 public interface DepartmentService {
 
@@ -17,4 +18,5 @@ public interface DepartmentService {
 
     void deleteDepartment(Long id);
     
+    DepartmentResponseDTO getMyDepartment(User user);
 }

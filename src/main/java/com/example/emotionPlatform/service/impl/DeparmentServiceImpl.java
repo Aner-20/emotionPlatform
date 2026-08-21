@@ -7,11 +7,13 @@ import org.springframework.stereotype.Service;
 import com.example.emotionPlatform.dto.department.DepartmentRequestDTO;
 import com.example.emotionPlatform.dto.department.DepartmentResponseDTO;
 import com.example.emotionPlatform.entity.Department;
+import com.example.emotionPlatform.entity.User;
 import com.example.emotionPlatform.exception.NotFoundException;
 import com.example.emotionPlatform.mapper.DepartmentMapper;
 import com.example.emotionPlatform.repository.DepartmentRepository;
 import com.example.emotionPlatform.service.DepartmentService;
 
+import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -63,6 +65,16 @@ public class DeparmentServiceImpl implements DepartmentService {
 
     private Department getDepartmentOrThrow(Long id){
         return departmentRepository.findById(id).orElseThrow(() -> new NotFoundException("Department not found"));
+    }
+
+    @Transactional(readOnly = true) // per risolvere il problema del lazyInitializationException
+    @Override
+    public DepartmentResponseDTO getMyDepartment(User user) {
+        
+        Department department = departmentRepository.findById(user.getDepartment().getId()).orElseThrow(() -> new NotFoundException("Department not found"));
+        
+        return departmentMapper.toResponse(department);
+
     }
     
 }

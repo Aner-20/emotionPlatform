@@ -13,15 +13,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.emotionPlatform.dto.note.NoteRequestDTO;
 import com.example.emotionPlatform.dto.note.NoteResponseDTO;
 import com.example.emotionPlatform.entity.User;
-import com.example.emotionPlatform.exception.NotFoundException;
-import com.example.emotionPlatform.repository.UserRepository;
 import com.example.emotionPlatform.service.NoteService;
+
+import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -106,7 +107,7 @@ public class NoteController {
 
     }
 
-
+    /* 
     @GetMapping("/my")
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<List<NoteResponseDTO>> getMyNotes(Authentication authentication) {
@@ -117,16 +118,30 @@ public class NoteController {
 
         return ResponseEntity.ok(noteService.getMyNotes(user));
 
+    }*/ 
+
+    // Con pageable
+    // @ParameterObject tratta Pageable come un insieme di parametri quert (page, size, sort) non come un unico oggetto
+
+
+    @GetMapping("/my")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+    public ResponseEntity<Page<NoteResponseDTO>> getMyNotes(Authentication authentication, @ParameterObject Pageable pageable){
+        User user = (User) authentication.getPrincipal(); 
+        System.out.println("PAGEABLE: " + pageable);
+        return ResponseEntity.ok(noteService.getMyNotes(user, pageable));
     }
+
 
     @GetMapping("/my/{id}")
     public ResponseEntity<NoteResponseDTO> getMyNote(@PathVariable Long id, Authentication authentication){
         User user = (User) authentication.getPrincipal();
 
-        return ResponseEntity.ok(noteService.getMyNote(id, user));
+        return ResponseEntity.ok(noteService.getMyNoteById(id, user));
     }
 
     @PutMapping("/my/{id}")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<NoteResponseDTO> updateMyNote(@PathVariable Long id, @RequestBody NoteRequestDTO request, Authentication authentication){
         User user = (User) authentication.getPrincipal();
 
@@ -134,6 +149,7 @@ public class NoteController {
     }
 
     @DeleteMapping("/my/{id}")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<Void> deleteMyNote(@PathVariable Long id, Authentication authentication){
         User user = (User) authentication.getPrincipal();
 

@@ -2,6 +2,8 @@ package com.example.emotionPlatform.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.web.config.EnableSpringDataWebSupport;
+
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
@@ -9,7 +11,11 @@ import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 
 // Per personalizzare Swagger
+// @EnableSpringDataWebSupport abilita/configura le funzionalità di Spring Data per il web
+// Quindi: Pageable, page, parametri page, size, sort, serializzazione delle pagine
+// VIA_DTO: non serializza direttamente PageImpl, ma usa una rappresentazione DTO stabile per la pagina
 @Configuration
+@EnableSpringDataWebSupport(pageSerializationMode = EnableSpringDataWebSupport.PageSerializationMode.VIA_DTO)
 public class OpenApiConfig {
     
     @Bean

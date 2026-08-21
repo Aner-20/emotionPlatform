@@ -25,8 +25,8 @@ import com.example.emotionPlatform.service.NoteService;
 import com.example.emotionPlatform.entity.RoleType;
 import lombok.RequiredArgsConstructor;
 import tools.jackson.databind.ObjectMapper;
-
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import com.example.emotionPlatform.entity.Emotion;
 import com.example.emotionPlatform.entity.NoteEmotion;
 
@@ -144,7 +144,7 @@ public class NoteServiceImpl implements NoteService {
 
 
     @Override
-    public NoteResponseDTO getMyNote(Long noteId, User user){
+    public NoteResponseDTO getMyNoteById(Long noteId, User user){
         Note note = noteRepository.findByIdAndUserId(noteId, user.getId()).orElseThrow(() -> new NotFoundException("Note not found"));
         return noteMapper.toResponse(note);
     }
@@ -153,6 +153,11 @@ public class NoteServiceImpl implements NoteService {
     public NoteResponseDTO updateMyNote(Long noteId, NoteRequestDTO request, User user){
         Note note = noteRepository.findByIdAndUserId(noteId, user.getId()).orElseThrow(() -> new NotFoundException("Note not found"));
         
+
+        if (!note.getUser().getId().equals(user.getId())){
+            throw new AccessDeniedException("You cannot delete this note");
+        }
+
         note.setText(request.getText());
         note.setIsPrivate(request.getIsPrivate());
         note.setUpdatedAt(LocalDateTime.now());
@@ -162,13 +167,21 @@ public class NoteServiceImpl implements NoteService {
         return noteMapper.toResponse(updatedNote);
     }
     
-
+    /* 
     @Override
     public List<NoteResponseDTO> getMyNotes(User user) {
          return noteRepository.findByUser(user)
                 .stream()
                 .map(noteMapper::toResponse)
                 .toList();
+    }
+
+    */
+
+    // Con Pageable
+    @Override
+    public Page<NoteResponseDTO> getMyNotes(User user, Pageable pageable){
+        return noteRepository.findByUser(user, pageable).map(noteMapper::toResponse);
     }
 
     public void deleteMyNote(Long id, User user){
