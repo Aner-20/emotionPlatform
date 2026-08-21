@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.emotionPlatform.dto.ai.AiAnalysisResponseDTO;
-import com.example.emotionPlatform.dto.ai.AiPythonResponse;
+
 import com.example.emotionPlatform.entity.Note;
 import com.example.emotionPlatform.exception.NotFoundException;
 import com.example.emotionPlatform.repository.NoteRepository;
