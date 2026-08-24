@@ -1,0 +1,22 @@
+:root{
+    /* Colori */
+    --color-primary: #87CEEB;
+    --color-primary-dark: #5BB8E5;
+    --color-primary-light: #EAF8FD;
+
+    --color-background: #F8FCFE;
+    --color-surface: #FFFFFF;
+
+    --color-text: #1F2933;
+    --color-text-secondary: #6B7280;
+
+    --color-border: #D9EAF0;
+
+    --color-success: #32CD32;
+    --color-error: #EF4444;
+
+    --font-family: Arial, sans-serif;
+    
+    /* Ombre */
+    --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
