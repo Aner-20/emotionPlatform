@@ -1,0 +1,31 @@
+
+@import "../../style/variables.css";
+
+nav{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    z-index: 100x;
+    background-color: var(--color-primary-dark);
+}
+
+.navbar-links{
+    display: flex;
+    gap: 2rem;
+    font-size: 18px;
+    margin-right: 20px;
+    
+}
+
+img{
+    width: 180px;
+    height: 100px;
+}
+
+a{
+    text-decoration: none;
+    font-size: 20px;
+    color: var(--color-text);
+}
+
