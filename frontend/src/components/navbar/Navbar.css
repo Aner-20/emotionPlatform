@@ -6,26 +6,36 @@ nav{
     align-items: center;
     justify-content: space-between;
     padding: 1rem;
-    z-index: 100x;
+
+    position: sticky;
+    top: 0; /*  in modo che rimanga in cima*/
+    z-index: 1000;
     background-color: var(--color-primary-dark);
+    
 }
 
 .navbar-links{
     display: flex;
     gap: 2rem;
-    font-size: 18px;
-    margin-right: 20px;
+    font-size: 1.5rem;
+    margin-right: 1.5rem;
     
 }
 
 img{
     width: 180px;
-    height: 100px;
+    height: 80px;
+    object-fit: contain; /* fa entrare l'immagine dentro il contenitore, senza deformarla e senza tagliarla */
+    
+    position: absolute;
+    top: 50%;
+    left: 1.5rem;
+    transform: translateY(-50%);
 }
 
 a{
     text-decoration: none;
-    font-size: 20px;
+    font-size: 1.25rem;
     color: var(--color-text);
 }
 

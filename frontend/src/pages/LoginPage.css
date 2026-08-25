@@ -1,0 +1,24 @@
+
+.login-page{
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.login-main{
+    
+    /* 
+    min-height: l'elemento deve essere alto almeno quanto 100vh - 100px, ma può diventare più alto se il contenuto lo richiede
+    100vh (900 pixel circa): pagina
+    100px: navbar
+    80px: footer
+    */
+    
+    /*min-height: calc(100vh - 100px - 80px);*/
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1; /* Prende tutto lo spazio disponibile tra Navbar e Footer*/
+}
