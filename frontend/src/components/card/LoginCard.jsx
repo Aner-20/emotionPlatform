@@ -13,9 +13,21 @@ function LoginCard(){
 
     const handleLogin = async () => {
         try {
-            await login(email, password);
+            
+            //await login(email, password);
+            const loggedUser = await login(email, password);
+            console.log(loggedUser.role.name);
             console.log("Login effettuato!");
-            navigate("/admin", { replace: true})
+
+            if (loggedUser.role.name === "ADMIN"){
+                navigate("/admin", { replace: true}) // per fare in modo che non si possa tornare indietro con la freccia del browser
+            }
+
+            else if (loggedUser.role.name === "USER"){
+                navigate("/user", { replace: true })
+            }
+
+            
         } catch (error) {
             console.error("Errore durante il login:", error);
         }

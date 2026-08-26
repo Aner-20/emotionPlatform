@@ -83,8 +83,10 @@ export function AuthProvider({ children }) {
         localStorage.setItem("token", data.token)
 
         console.log("Login response: ", data);
+        // data.user.role.name
         setToken(data.token);
         setUser(data.user);
+        return data.user;
     }
     
     const logout = () => {
