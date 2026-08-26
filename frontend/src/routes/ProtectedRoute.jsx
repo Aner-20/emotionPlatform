@@ -1,4 +1,5 @@
 import { Navigate } from "react-router-dom"
+// Navigate serve a react per effettuare automaticamente un redirect
 import { useContext } from "react"
 import AuthContext from "../context/AuthContext"
 

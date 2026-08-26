@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { useState, useContext } from 'react';
 import AuthContext from '../../context/AuthContext';
 import './LoginCard.css'
@@ -9,11 +9,13 @@ function LoginCard(){
     const [password, setPassword] = useState('')
 
     const { login } = useContext(AuthContext);
-    
+    const navigate = useNavigate();
+
     const handleLogin = async () => {
         try {
             await login(email, password);
             console.log("Login effettuato!");
+            navigate("/admin", { replace: true})
         } catch (error) {
             console.error("Errore durante il login:", error);
         }

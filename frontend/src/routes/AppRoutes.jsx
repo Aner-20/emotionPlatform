@@ -4,13 +4,19 @@ import {BrowserRouter, Routes, Route} from 'react-router-dom'
 
 import LoginPage from '../pages/LoginPage.jsx'
 import AdminPage from '../pages/AdminPage.jsx';
+
 import ProtectedRoute from './ProtectedRoute.jsx';
+import PublicRoute from './PublicRoute.jsx';
 
 function AppRoutes(){
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<LoginPage />}/>
+                <Route path="/" element={
+                        <PublicRoute>
+                            <LoginPage />
+                        </PublicRoute>
+                }/>
                 <Route path="/admin" element={
                         <ProtectedRoute>
                            <AdminPage />
