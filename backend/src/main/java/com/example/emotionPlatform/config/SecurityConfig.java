@@ -8,10 +8,14 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
 import com.example.emotionPlatform.security.JwtAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.http.HttpMethod;
 
 import lombok.RequiredArgsConstructor;
+import java.util.List;
 
 @Configuration // dice a spring che questa classe contiene configurazioni da caricare all'avvio dell'applicazione
 @EnableMethodSecurity // fondamentale altrimenti preAuthorize nei controller non funziona
@@ -31,6 +35,8 @@ public class SecurityConfig {
             // Disabilita CSRF per le API REST
             .csrf(csrf -> csrf.disable())
 
+            .cors(cors -> {})
+
             // JWT è stateless
             // Spring non deve creare sessioni lato server
             .sessionManagement(session -> 
@@ -43,6 +49,8 @@ public class SecurityConfig {
             // Autorizzazioni
             .authorizeHttpRequests(auth -> auth
 
+                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+
                 // Swagger
                 .requestMatchers(
                         "/swagger-ui/**",
@@ -52,16 +60,12 @@ public class SecurityConfig {
 
 
                 // Login e registrazione pubblici
-                .requestMatchers(
-                    "/api/auth/**"
-                ).permitAll()
+                .requestMatchers("/api/auth/**").permitAll()
 
                 // Tutte le altre richieste richiedono autenticazione JWT
                 .anyRequest().authenticated()
 
                 
-                
-
                 // Tutte le API (solo durante lo sviluppo)
                 //.anyRequest().permitAll()
             )
@@ -76,6 +80,26 @@ public class SecurityConfig {
         return http.build();
     }
 
-    
+
+    // Spring Security usa questo bean per sapere quali richieste cross-origin sono consentite
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource(){
+        CorsConfiguration configuration = new CorsConfiguration();
+
+        configuration.setAllowedOrigins(List.of("http://localhost:5173"));
+
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+
+        // Accetta qualsiasi header nella richiesta
+        configuration.setAllowedHeaders(List.of("*"));
+
+        // Permette di associare una configurazione CORS a determinati URL/path
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+
+        // /** applica questa configurazione a tutti gli endpoint
+        source.registerCorsConfiguration("/**", configuration);
+
+        return source;
+    }
 
 }

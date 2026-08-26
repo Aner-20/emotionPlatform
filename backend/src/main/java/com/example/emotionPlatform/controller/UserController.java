@@ -7,6 +7,8 @@ import com.example.emotionPlatform.dto.user.UserRequestDTO;
 import com.example.emotionPlatform.dto.user.UserResponseDTO;
 import com.example.emotionPlatform.service.UserService;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
@@ -28,6 +30,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class UserController {
     private final UserService userService;
     
+
+    @GetMapping("/me")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    public ResponseEntity<UserResponseDTO> getCurrentUser(Authentication authentication){
+        String email = authentication.getName();
+        UserResponseDTO user = userService.findUserByEmail(email);
+        return ResponseEntity.ok(user);
+    }
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
@@ -75,5 +85,7 @@ public class UserController {
                  .noContent()
                  .build();
     }
+
+    
 
 }

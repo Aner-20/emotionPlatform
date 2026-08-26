@@ -1,11 +1,14 @@
+import AppRoutes from './routes/AppRoutes.jsx'
+import { AuthProvider } from './context/AuthContext.jsx'
 
 import './style/App.css'
-
-import AppRoutes from './routes/AppRoutes.jsx'
-
 function App() {
 
-  return <AppRoutes />
+  return (
+    <AuthProvider>
+        <AppRoutes />
+    </AuthProvider>
+  )
 }
 
 export default App
