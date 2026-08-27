@@ -1,5 +1,6 @@
 
-import NavBar from '../components/navbar/NavBar.jsx';
+
+import NavBar from '../components/navbar/Navbar.jsx'
 import LoginCard from '../components/card/LoginCard.jsx'
 import Footer from '../components/footer/Footer.jsx'
 

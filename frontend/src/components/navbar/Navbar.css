@@ -11,7 +11,7 @@ nav{
     top: 0; /*  in modo che rimanga in cima*/
     z-index: 1000;
     background-color: var(--color-primary-dark);
-    
+    height: 3.5rem;
 }
 
 .navbar-links{

@@ -38,6 +38,8 @@ function LoginCard(){
         }
     }
 
+
+    // <> </> permette a React di avere più elementi senza aggiungere un altro <div> al DOM
     return (
         <>
             <div className="login-card">
