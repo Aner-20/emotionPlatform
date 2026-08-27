@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import logo from "../../assets/logo.png"
 import './Navbar.css'
 
@@ -7,18 +7,26 @@ import { useContext } from 'react'
 
 function NavBar(){
 
-    const { user } = useContext(AuthContext);
+    const { user, logout } = useContext(AuthContext);
+    const navigate = useNavigate()
+
+    const handleLogout = () => {
+        console.log("Ok")
+        logout();
+        navigate("/", { replace: true })
+    }
+
     // ? evita un errore se user è momentaneamente null
     return (
         <nav className="navbar">
-            <Link to="/"><img src={logo} alt="Emotion Platform" /></Link>
+            <Link className="navbar-logo-link" to="/"><img className="navbar-logo" src={logo} alt="Emotion Platform" /></Link>
             <div className="navbar-links">
                 <Link to="/">Home</Link>
             
                 {user?.role.name === "ADMIN" && (
                     <>
                         <Link to="/users">Users</Link>
-                        <button>Log out </button>
+                        <button onClick={handleLogout}>Log out </button>
                     </>
                     
                     
@@ -27,7 +35,7 @@ function NavBar(){
                 {user?.role.name === "USER" && (
                     <>
                         <Link to="/notes">My notes</Link>
-                        <button>Log out</button>
+                        <button onClick={handleLogout}>Log out</button>
                     </>
                     
                 )}

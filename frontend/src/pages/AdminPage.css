@@ -4,9 +4,10 @@
     flex-direction: column;
 }
 
-main{
+.admin-main{
     display: flex;
     align-items: center;
     justify-content: center;
     flex: 1;
+
 }

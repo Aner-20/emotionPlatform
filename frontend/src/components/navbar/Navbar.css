@@ -14,23 +14,25 @@ nav{
     height: 3.5rem;
 }
 
+.navbar-logo-link{
+    display: flex;
+    align-items: center;
+}
+
 .navbar-links{
     display: flex;
     gap: 2rem;
     font-size: 1.5rem;
     margin-right: 1.5rem;
-    
+    align-items: center;
 }
 
-img{
+.navbar-logo{
     width: 180px;
     height: 80px;
     object-fit: contain; /* fa entrare l'immagine dentro il contenitore, senza deformarla e senza tagliarla */
     
-    position: absolute;
-    top: 50%;
-    left: 1.5rem;
-    transform: translateY(-50%);
+    margin-top: .3rem;
 }
 
 a{

@@ -2,11 +2,13 @@
 import NavBar from "../components/navbar/Navbar";
 import Footer from "../components/footer/Footer";
 
+import "./AdminPage.css"
+
 function AdminPage(){
     return (
-        <div className="adminPage">
+        <div className="admin-page">
             <NavBar></NavBar>
-            <main>
+            <main className="admin-main">
 
             </main>
             <Footer></Footer>
