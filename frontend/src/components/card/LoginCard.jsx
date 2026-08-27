@@ -50,7 +50,7 @@ function LoginCard(){
                 <input type="email"  placeholder='email' value={email} onChange={(e) => setEmail(e.target.value)} required/>
                 <input type="password" placeholder='password' value={password} onChange={(e) => setPassword(e.target.value)} required/>
                 <Button text="Login" onClick={handleLogin}></Button>
-                <Link to="/">Non hai un account? Registrati</Link>
+                <Link className="register-link" to="/register">Non hai un account? Registrati</Link>
             </div>
 
             {showModal && (

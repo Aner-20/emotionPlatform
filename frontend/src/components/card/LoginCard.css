@@ -36,5 +36,11 @@ input::placeholder{
     color: var(--color-text);
 }
 
+.register-link{
+    transition: color 0.3s ease;
+}
 
+.register-link:hover{
+    color: white
+}
 

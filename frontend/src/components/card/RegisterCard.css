@@ -1,0 +1,40 @@
+@import "../../style/variables.css";
+
+
+.register-card{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    border: 2px solid var(--color-border);
+    border-radius: .6rem;
+    background-color: var(--color-primary-dark);
+    box-shadow: var(--shadow-card);
+    padding: 1rem;
+}
+
+.data-user-section{
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    gap: 1rem;
+}
+
+
+
+select {
+    width: 100%;
+    padding: .5rem;
+    border: 1px solid var(--color-border);
+    border-radius: .5rem;
+    background-color: var(--color-surface);
+    font-size: 1rem;
+    cursor: pointer;
+    outline: none;
+    /*appearance: none; /* rimuove l'aspetto grafico di default degli elementi HTML */
+    transition: box-shadow 0.3 ease;
+}
+
+select:hover{
+    box-shadow: var(--shadow-card);
+}
+
+

@@ -8,7 +8,6 @@ import './Navbar.css'
 
 import AuthContext from '../../context/AuthContext'
 
-
 function NavBar(){
 
     const { user, logout } = useContext(AuthContext);
@@ -25,11 +24,11 @@ function NavBar(){
         <nav className="navbar">
             <Link className="navbar-logo-link" to="/"><img className="navbar-logo" src={logo} alt="Emotion Platform" /></Link>
             <div className="navbar-links">
-                <Link to="/">Home</Link>
+                
             
                 {user?.role.name === "ADMIN" && (
                     <>
-                        <Link to="/users">Users</Link>
+                        <Link to="">Users</Link>
                         <Button text= "Log out" onClick={handleLogout}></Button>
                     </>
                     
@@ -38,7 +37,7 @@ function NavBar(){
 
                 {user?.role.name === "USER" && (
                     <>
-                        <Link to="/notes">My notes</Link>
+                        <Link to="">My notes</Link>
                         <Button text="Log out" onClick={handleLogout}></Button>
                     </>
                     
