@@ -39,6 +39,14 @@ public class RegisterRequestDTO {
         regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).+$",
         message = "Password must contain at least one uppercase letter, one lowercase letter and one number"
     )
+    /*
+    (?=.*[a-z])    → almeno una minuscola
+    (?=.*[A-Z])    → almeno una maiuscola
+    (?=.*\d)       → almeno un numero
+    .+              → almeno un carattere
+    
+    */
+
     private String password;
 
     private Long departmentId;
