@@ -1,9 +1,13 @@
 import { Link, useNavigate } from 'react-router-dom'
+import { useContext } from 'react'
 import logo from "../../assets/logo.png"
+
+import Button from '../button/Button'
+
 import './Navbar.css'
 
 import AuthContext from '../../context/AuthContext'
-import { useContext } from 'react'
+
 
 function NavBar(){
 
@@ -26,7 +30,7 @@ function NavBar(){
                 {user?.role.name === "ADMIN" && (
                     <>
                         <Link to="/users">Users</Link>
-                        <button onClick={handleLogout}>Log out </button>
+                        <Button text= "Log out" onClick={handleLogout}></Button>
                     </>
                     
                     
@@ -35,7 +39,7 @@ function NavBar(){
                 {user?.role.name === "USER" && (
                     <>
                         <Link to="/notes">My notes</Link>
-                        <button onClick={handleLogout}>Log out</button>
+                        <Button text="Log out" onClick={handleLogout}></Button>
                     </>
                     
                 )}

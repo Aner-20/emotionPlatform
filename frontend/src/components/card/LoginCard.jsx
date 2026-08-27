@@ -2,7 +2,10 @@ import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { useState, useContext } from 'react';
 
 import AuthContext from '../../context/AuthContext';
+
+
 import Modal from '../modal/Modal';
+import Button from '../button/Button';
 
 import './LoginCard.css'
 
@@ -46,7 +49,7 @@ function LoginCard(){
                 <p>Bentornato</p>
                 <input type="email"  placeholder='email' value={email} onChange={(e) => setEmail(e.target.value)} required/>
                 <input type="password" placeholder='password' value={password} onChange={(e) => setPassword(e.target.value)} required/>
-                <button onClick={handleLogin}>Login</button>
+                <Button text="Login" onClick={handleLogin}></Button>
                 <Link to="/">Non hai un account? Registrati</Link>
             </div>
 
