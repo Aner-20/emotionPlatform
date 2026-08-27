@@ -84,4 +84,9 @@ public class DepartmentController {
         return ResponseEntity.ok(departmentService.getMyDepartment(user));
     }
 
+    @GetMapping("/registration")
+    public ResponseEntity <List<DepartmentResponseDTO>> getRegistrationDepartments(){
+        return ResponseEntity.ok(departmentService.getAllDepartments());
+    }
+
 }

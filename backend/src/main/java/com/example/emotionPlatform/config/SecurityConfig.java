@@ -60,7 +60,7 @@ public class SecurityConfig {
 
 
                 // Login e registrazione pubblici
-                .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers("/api/auth/**", "/api/departments/registration").permitAll()
 
                 // Tutte le altre richieste richiedono autenticazione JWT
                 .anyRequest().authenticated()
