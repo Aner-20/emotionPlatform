@@ -95,8 +95,33 @@ export function AuthProvider({ children }) {
         setUser(null);
     }
 
+
+    const register = async (firstName, lastName, email, password, departmentId) => {
+         const response = await fetch("http://localhost:8080/api/auth/register", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                firstName,
+                lastName,
+                email,
+                password,
+                departmentId
+            })
+        });
+
+        if (!response.ok){
+            throw new Error("Registration failed")
+        }
+
+        const data = await response.json();
+        return data;
+
+    }
+
     return (
-        <AuthContext.Provider value={{user, token, isAuthenticated, loading, login, logout, }}>
+        <AuthContext.Provider value={{user, token, isAuthenticated, loading, login, logout, register}}>
             {children}
         </AuthContext.Provider>
     );
