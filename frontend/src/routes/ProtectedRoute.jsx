@@ -3,6 +3,10 @@ import { Navigate } from "react-router-dom"
 import { useContext } from "react"
 import AuthContext from "../context/AuthContext"
 
+import UnAuthorizedPage from "../pages/UnAuthorizedPage.jsx";
+
+// replace stabilisce come viene modificata la cronologia del browsere fa in modo che non si possa tornare indietro
+
 function ProtectedRoute({ children }){
     const { isAuthenticated, loading } = useContext(AuthContext);
     
@@ -11,7 +15,8 @@ function ProtectedRoute({ children }){
     }
 
     if(!isAuthenticated){
-        return <Navigate to="/" replace />
+        //return <Navigate to="/" replace />
+        return <UnAuthorizedPage />
     }
 
     return children; // se è autenticato

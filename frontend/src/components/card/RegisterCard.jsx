@@ -83,20 +83,20 @@ function RegisterCard(){
         <>
             <div className="register-card">
                 <div className="data-user-section">
-                    <input type="text" placeholder="Nome" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
+                    <input type="text" className="input-card" placeholder="Nome" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
                     {firstName.length >= 0 && (
                         <p>
                             {isFirstNameValid ? "✓ Nome valido" :  "✗ Il nome deve avere almeno 3 caratteri"}
                         </p>
                     )}
-                    <input type="text" placeholder="Cognome" value={lastName} onChange={(e) => setLastName(e.target.value)} />
+                    <input type="text" className="input-card" placeholder="Cognome" value={lastName} onChange={(e) => setLastName(e.target.value)} />
                     {lastName.length >= 0 && (
                         <p>
                             {isLastNameValid ? "✓ Cognome valido" :  "✗ Il cognome deve avere almeno 3 caratteri"}
                         </p>
                     )}
                     <div className="password-field">
-                            <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)}/>
+                            <input type="password" className="input-card" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)}/>
                             {password.length >= 0 && (
                                 <div className="password-requirements">
                                     <p>{password.length >= 8 ? "✓" : "✗"} Almeno 8 caratteri</p>
@@ -107,7 +107,7 @@ function RegisterCard(){
                             )}
                     </div>
                     
-                    <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)}/>
+                    <input type="email" className="input-card" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)}/>
                     {email.length >= 0 && (
                         isValidEmail(email) ? <p>Email valida</p> : <p>Email non valida</p>
                     )}

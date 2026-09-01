@@ -14,13 +14,12 @@
 }
 
 .data-user-section{
-    
     display: flex;
     flex-direction: column;
     gap: 1rem;
 }
 
-input{
+.input-card{
     width: 70%;
 }
 
