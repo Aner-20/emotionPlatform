@@ -57,6 +57,10 @@ select:hover{
     box-shadow: var(--shadow-card);
 }
 
-
+.registration-button:disabled{
+    opacity: 0.5;
+    cursor: not-allowed;
+    
+}
 
 
