@@ -1,4 +1,5 @@
 import { useEffect, useState, useContext } from "react";
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import "./RegisterCard.css"
 
 import AuthContext from "../../context/AuthContext";
@@ -31,6 +32,7 @@ function RegisterCard(){
     };
 
     const { register } = useContext(AuthContext);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchDepartments = async () => {
@@ -56,7 +58,7 @@ function RegisterCard(){
     }, []) // [] useEffect viene eseguito quando RegisterCard viene montata
 
 
-    const registerUser =  async () => {
+    const registerUser = async () => {
         if (isFirstNameValid && isLastNameValid && isPasswordValid && isValidEmail(email)){
             try {
                 await register(firstName, lastName, email, password, departmentId);
@@ -66,6 +68,9 @@ function RegisterCard(){
                 setPassword("");
                 setEmail("");
                 setDepartmentId("");
+                setTimeout(() => {
+                    navigate("/", { replace: true});
+                }, 3000);
 
             } catch (error) {
                 console.error("Errore durante la registrazione:", error);
@@ -134,7 +139,7 @@ function RegisterCard(){
             
             <Modal
                     title="Modulo di registrazione"
-                    message="Registrazione effettuata con successo!"
+                    message="Registrazione effettuata con successo! Tra 3 secondi sarai riportato nella pagina di login"
                     onClose={() => setShowModal(false)}
                 />  
                 

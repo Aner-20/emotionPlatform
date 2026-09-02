@@ -1,5 +1,8 @@
+@import "../../style/variables.css";
+
+
 button{
-    font-size: 16px;
+    font-size: 1rem;
     background-color: var(--color-background);
     border: none;
     border-radius: 0.3rem;
@@ -16,4 +19,26 @@ button{
 button:hover{
     transform: translateY(-5px);
     box-shadow: var(--shadow-card)
+}
+
+.account-button{
+    font-size: 1.3rem;
+    background: none;
+    border: none;
+    border-radius: 0;
+    width: auto;
+    height: auto;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+    box-shadow: none;
+    transform: none;
+    color: var(--color-text);
+    transition: color 0.3s ease;
+}
+
+.account-button:hover {
+    transform: none;
+    box-shadow: none;
+    color: white;
 }

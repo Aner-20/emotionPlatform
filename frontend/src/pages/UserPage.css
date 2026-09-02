@@ -1,0 +1,13 @@
+.user-page{
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.user-main{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+
+}
