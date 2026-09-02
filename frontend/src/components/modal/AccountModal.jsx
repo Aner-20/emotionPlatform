@@ -1,9 +1,10 @@
 
+import "./AccountModal.css"
 
 function AccountModal({ user, onClose}){
     return (
         <div className="modal-overlay">
-            <div className="modal">
+            <div className="account-modal">
                 <h2>Il mio account</h2>
                 <p>Nome: {user.firstName}</p>
                 <p>Cognome: {user.lastName}</p>

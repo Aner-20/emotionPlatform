@@ -13,7 +13,6 @@ function NavBar(){
 
     const { user, logout } = useContext(AuthContext);
     const navigate = useNavigate()
-    console.log(user)
 
     const [showAccountModal, setShowAccountModal] = useState(false);
 

@@ -12,13 +12,13 @@
 }
 
 
-.modal{
+.account-modal{
     width: 400px;
     padding: 2rem;
     background-color: var(--color-primary-dark);
     border-radius: 1rem;
     box-shadow: var(--shadow-card);
-    
+    line-height: 2rem;
     
 }
 
