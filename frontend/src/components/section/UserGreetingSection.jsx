@@ -1,7 +1,9 @@
 
+import "./UserGreetingSection.css"
+
 function UserGreetingSection({ user }){
     return (
-        <div>Ciao {user.firstName}</div>
+        <section className="greeting-section">Ciao {user.firstName}</section>
     )
 }
 

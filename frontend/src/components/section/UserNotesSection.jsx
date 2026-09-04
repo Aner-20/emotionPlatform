@@ -1,6 +1,11 @@
 
-function UserGreetingSection(){
-    return <div>Le mie note</div>
+
+import "./UserNotesSection.css"
+
+function UserNotesSection(){
+    return (
+        <section className="notes-section">Le mie note</section>
+    )
 }
 
-export default UserGreetingSection;
+export default UserNotesSection;
