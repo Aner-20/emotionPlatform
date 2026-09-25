@@ -1,0 +1,25 @@
+# Immagine di partenza da cui costruire il container
+# Alpine Linux: distribuzione leggera e orientata sulla sicurezza
+
+# Fase 1: Build
+FROM node:20-alpine 
+
+# Cartella di lavoro nel container
+
+WORKDIR /app
+
+# Copia i file di dipendenza
+COPY package*.json ./
+
+# Installa le dipendenze
+RUN npm install
+
+# Copia i sorgenti del progetto
+COPY . .
+
+# Fase 2: Produzione: copia solo i file statici compilati in un web server leggero come Nginx o Caddy per servire il sito
+
+EXPOSE 5173
+
+# Avvia il server di sviluppo di Vite specificando l'host 0.0.0.0
+CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]

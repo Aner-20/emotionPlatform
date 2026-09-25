@@ -1,0 +1,112 @@
+# Versione del formato del file Docker Compose
+version: '3.8'
+
+services:
+  # 1. DATABASE POSTGRESQL
+  db:
+    image: postgres:15-alpine
+    container_name: postgres_db
+    environment:
+      POSTGRES_DB: platform_emotion_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: "h62:!-Wy(/"
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    # healthcheck: attiva la funziona di controllo dello stato di salute, senza questo blocco Docker considererebbe il container pronto nel momento in cui il processo si avviasse
+    
+    healthcheck:
+      # CMD-SHELL: dice a Docker di eseguire il comando usando la shell del container
+      # pg_isready: utility di PostgreSQL che controlla se il server accetta connessioni
+      # -U postgres: specifica l'utente PostgreSQL con cui fare il test(postgres)
+      # -d platform_emotion_db: Specifica il nome del database da verificare (platform_emotion_db)
+
+      test: ["CMD-SHELL", "pg_isready -U postgres -d platform_emotion_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # 2. BACKEND SPRING BOOT (+ FLYWAY)
+  backend-spring:
+    # build: dice a docker compose come costruire l'immagine locale dell'app invece di scaricarne una dal Docker Hub
+
+    build:
+      context: ./backend  # Sostituisci con il nome della cartella del tuo Spring Boot
+      dockerfile: Dockerfile
+    container_name: spring_backend
+    
+    # ports: mappa le porte tra il computer e il container Docker. Permette di accedere all'app dal browser tramite http://localhost:8080
+
+    ports:
+      - "8080:8080"
+
+    # depends_on: gestisce l'ordine di avvio e le dipendenze tra i container 
+
+    depends_on:
+      db:
+        # condition: service_healthy dice a Docker di non avviare Spring boot finchè il database non supera l'healthcheck che abbiamo visto prima 
+
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/platform_emotion_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: "h62:!-Wy(/"
+
+  # 3. MICROSERVIZIO PYTHON (FASTAPI)
+  service-python:
+    build:
+      context: ./ai  # Sostituisci con il nome della cartella del tuo Python
+      dockerfile: Dockerfile
+    container_name: python_service
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./service-python:/app  # Ricarica automatica in caso di modifiche al codice Python
+
+  # 4. FRONTEND REACT (VITE)
+  frontend-react:
+    build:
+      context: ./frontend  # Sostituisci con il nome della cartella del tuo React
+      
+
+      # Dockerfile.dev è un file dedicato allo sviluppo per avviare il server di Vite
+
+      dockerfile: Dockerfile.dev
+    container_name: react_frontend
+    ports:
+      - "5173:5173"
+    volumes:
+
+      # ./frontend-react:/app: sincronizza i file della cartella locale del tuo PC con la cartella /app dentro il container. 
+      # /app/node_modules crea un volume anonimo per la cartella node_modules. Impedisce che la cartella node_modules del PC  sovrascriva quella createa dentro il container durante la build, evitando conflitti di dipendendenze tra SO diversi
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      - WATCHPACK_POLLING=true
+
+    # depends_on: il container si avvia solo dopo che i servizi backend-spring e service-python vengono avviati
+    
+
+    depends_on:
+      - backend-spring
+      - service-python
+
+# 5. ADMINER (Interfaccia grafica db)
+  adminer:
+    image: adminer
+    container_name: adminer_db
+    ports:
+      - "8081:8080"
+    
+    depends_on:
+      db:
+        condition: service_healthy
+
+
+# volumes: postgres_data: volume gestito da docker. Risolve il problema della non persistenza dei container
+# postgres_data crea uno spazio di archiviazione persistente sul disco del tuo computer. 
+# Collegandolo al servizio PostgreSQL, i container non vengono eliminati anche se si scrive docker compose down
+
+volumes:
+  postgres_data:

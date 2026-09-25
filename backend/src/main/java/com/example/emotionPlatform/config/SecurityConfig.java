@@ -35,7 +35,7 @@ public class SecurityConfig {
             // Disabilita CSRF per le API REST
             .csrf(csrf -> csrf.disable())
 
-            .cors(cors -> {})
+            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
 
             // JWT è stateless
             // Spring non deve creare sessioni lato server
@@ -92,12 +92,14 @@ public class SecurityConfig {
 
         // Accetta qualsiasi header nella richiesta
         configuration.setAllowedHeaders(List.of("*"));
+        configuration.setAllowCredentials(true);
 
         // Permette di associare una configurazione CORS a determinati URL/path
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 
         // /** applica questa configurazione a tutti gli endpoint
         source.registerCorsConfiguration("/**", configuration);
+        
 
         return source;
     }

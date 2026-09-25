@@ -54,7 +54,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         // si prende l'utente che ha appena autenticato
         // getPrincipal() contiene gli UserDetails
         // Senza casting (user) non si potrebbe fare ad esempio user.getEmail(), in quanto Object non contiene il metodo getEmail()
-        User user = (User) authentication.getPrincipal();
+        //User user = (User) authentication.getPrincipal();
+
+        User user = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new NotFoundException("Utente non trovato con email: " + request.getEmail()));
 
         String token = jwtService.generateToken(user);
 
