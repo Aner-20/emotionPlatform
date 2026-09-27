@@ -62,7 +62,7 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - ./service-python:/app  # Ricarica automatica in caso di modifiche al codice Python
+      - ./ai:/app  # Ricarica automatica in caso di modifiche al codice Python
 
   # 4. FRONTEND REACT (VITE)
   frontend-react:
@@ -84,7 +84,7 @@ services:
       - /app/node_modules
     environment:
       - WATCHPACK_POLLING=true
-
+      - CHOKIDAR_USEPOLLING=true 
     # depends_on: il container si avvia solo dopo che i servizi backend-spring e service-python vengono avviati
     
 
