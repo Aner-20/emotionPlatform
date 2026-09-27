@@ -15,4 +15,6 @@ COPY . .
 EXPOSE 8000
 
 # Avvia l'applicazione FastAPI tramite Uvicorn
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+# 0.0.0.0 Ascolta tutte le connessioni di rete provenienti dall'esterno del container
+# 8000 Specifica la porta interna al container su cui il server Uvicorn accetterà le richieste HTTP
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]

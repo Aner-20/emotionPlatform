@@ -2,9 +2,9 @@
 # Unicorn è il server che serve per ricevere ed eseguire le richieste HTTP
 
 from fastapi import FastAPI
-from model import EmotionRequest
-from model import EmotionResponse
-from emotion_service import EmotionService
+from .model import EmotionRequest
+from .model import EmotionResponse
+from .emotion_service import EmotionService
 
 
 app = FastAPI()

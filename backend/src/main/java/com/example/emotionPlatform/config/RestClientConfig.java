@@ -10,7 +10,8 @@ public class RestClientConfig {
     @Bean
     public RestClient restClient(){
         return RestClient.builder()
-                .baseUrl("http://localhost:8000")
+                //.baseUrl("http://localhost:8000") prima di docker compose
+                .baseUrl("http://service-python:8000")
                 .build();
     }
 }
